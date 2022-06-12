@@ -199,11 +199,13 @@ var (
 	staticPossum          http.Handler
 	staticR2router        http.Handler
 	// staticRevel           http.Handler
-	staticRivet      http.Handler
-	staticTango      http.Handler
-	staticTigerTonic http.Handler
-	staticTraffic    http.Handler
-	staticVulcan     http.Handler
+	staticRivet                   http.Handler
+	staticTango                   http.Handler
+	staticTigerTonic              http.Handler
+	staticTraffic                 http.Handler
+	staticVulcan                  http.Handler
+	staticMakasimHTTPRouter       http.Handler
+	staticMakasimGlobalHTTPRouter http.Handler
 	// staticZeus        http.Handler
 )
 
@@ -271,6 +273,12 @@ func init() {
 	})
 	calcMem("HttpRouter", func() {
 		staticHttpRouter = loadHttpRouter(staticRoutes)
+	})
+	calcMem("MakasimHttpRouter", func() {
+		staticMakasimHTTPRouter = loadMakasimHttpRouter(staticRoutes)
+	})
+	calcMem("MakasimGlobalHttpRouter", func() {
+		staticMakasimGlobalHTTPRouter = loadMakasimGlobalHttpRouter(staticRoutes)
 	})
 	calcMem("HttpTreeMux", func() {
 		staticHttpTreeMux = loadHttpTreeMux(staticRoutes)
@@ -422,6 +430,14 @@ func BenchmarkTraffic_StaticAll(b *testing.B) {
 }
 func BenchmarkVulcan_StaticAll(b *testing.B) {
 	benchRoutes(b, staticVulcan, staticRoutes)
+}
+
+func BenchmarkMakasimHTTPRouter_StaticAll(b *testing.B) {
+	benchRoutes(b, staticMakasimHTTPRouter, staticRoutes)
+}
+
+func BenchmarkMakasimGlobalHTTPRouter_StaticAll(b *testing.B) {
+	benchRoutes(b, staticMakasimGlobalHTTPRouter, staticRoutes)
 }
 
 // func BenchmarkZeus_StaticAll(b *testing.B) {

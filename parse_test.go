@@ -56,38 +56,40 @@ var parseAPI = []route{
 }
 
 var (
-	parseAce             http.Handler
-	parseAero            http.Handler
-	parseBear            http.Handler
-	parseBeego           http.Handler
-	parseBone            http.Handler
-	parseChi             http.Handler
-	parseCloudyKitRouter http.Handler
-	parseDenco           http.Handler
-	parseEcho            http.Handler
-	parseGin             http.Handler
-	parseGocraftWeb      http.Handler
-	parseGoji            http.Handler
-	parseGojiv2          http.Handler
-	parseGoJsonRest      http.Handler
-	parseGoRestful       http.Handler
-	parseGorillaMux      http.Handler
-	parseGowwwRouter     http.Handler
-	parseHttpRouter      http.Handler
-	parseHttpTreeMux     http.Handler
-	parseKocha           http.Handler
-	parseLARS            http.Handler
-	parseMacaron         http.Handler
-	parseMartini         http.Handler
-	parsePat             http.Handler
-	parsePossum          http.Handler
-	parseR2router        http.Handler
-	parseRevel           http.Handler
-	parseRivet           http.Handler
-	parseTango           http.Handler
-	parseTigerTonic      http.Handler
-	parseTraffic         http.Handler
-	parseVulcan          http.Handler
+	parseAce                     http.Handler
+	parseAero                    http.Handler
+	parseBear                    http.Handler
+	parseBeego                   http.Handler
+	parseBone                    http.Handler
+	parseChi                     http.Handler
+	parseCloudyKitRouter         http.Handler
+	parseDenco                   http.Handler
+	parseEcho                    http.Handler
+	parseGin                     http.Handler
+	parseGocraftWeb              http.Handler
+	parseGoji                    http.Handler
+	parseGojiv2                  http.Handler
+	parseGoJsonRest              http.Handler
+	parseGoRestful               http.Handler
+	parseGorillaMux              http.Handler
+	parseGowwwRouter             http.Handler
+	parseHttpRouter              http.Handler
+	parseMakasimHttpRouter       http.Handler
+	parseMakasimGlobalHttpRouter http.Handler
+	parseHttpTreeMux             http.Handler
+	parseKocha                   http.Handler
+	parseLARS                    http.Handler
+	parseMacaron                 http.Handler
+	parseMartini                 http.Handler
+	parsePat                     http.Handler
+	parsePossum                  http.Handler
+	parseR2router                http.Handler
+	parseRevel                   http.Handler
+	parseRivet                   http.Handler
+	parseTango                   http.Handler
+	parseTigerTonic              http.Handler
+	parseTraffic                 http.Handler
+	parseVulcan                  http.Handler
 	// parseZeus        http.Handler
 )
 
@@ -147,6 +149,12 @@ func init() {
 	})
 	calcMem("HttpRouter", func() {
 		parseHttpRouter = loadHttpRouter(parseAPI)
+	})
+	calcMem("MakasimHttpRouter", func() {
+		parseMakasimHttpRouter = loadMakasimHttpRouter(parseAPI)
+	})
+	calcMem("MakasimGlobalHttpRouter", func() {
+		parseMakasimGlobalHttpRouter = loadMakasimGlobalHttpRouter(parseAPI)
 	})
 	calcMem("HttpTreeMux", func() {
 		parseHttpTreeMux = loadHttpTreeMux(parseAPI)
@@ -269,6 +277,14 @@ func BenchmarkGowwwRouter_ParseStatic(b *testing.B) {
 func BenchmarkHttpRouter_ParseStatic(b *testing.B) {
 	req, _ := http.NewRequest("GET", "/1/users", nil)
 	benchRequest(b, parseHttpRouter, req)
+}
+func BenchmarkMakasimHttpRouter_ParseStatic(b *testing.B) {
+	req, _ := http.NewRequest("GET", "/1/users", nil)
+	benchRequest(b, parseMakasimHttpRouter, req)
+}
+func BenchmarkMakasimGlobalHttpRouter_ParseStatic(b *testing.B) {
+	req, _ := http.NewRequest("GET", "/1/users", nil)
+	benchRequest(b, parseMakasimGlobalHttpRouter, req)
 }
 func BenchmarkHttpTreeMux_ParseStatic(b *testing.B) {
 	req, _ := http.NewRequest("GET", "/1/users", nil)

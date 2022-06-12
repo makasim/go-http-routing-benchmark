@@ -36,38 +36,40 @@ var gplusAPI = []route{
 }
 
 var (
-	gplusAce             http.Handler
-	gplusAero            http.Handler
-	gplusBear            http.Handler
-	gplusBeego           http.Handler
-	gplusBone            http.Handler
-	gplusChi             http.Handler
-	gplusCloudyKitRouter http.Handler
-	gplusDenco           http.Handler
-	gplusEcho            http.Handler
-	gplusGin             http.Handler
-	gplusGocraftWeb      http.Handler
-	gplusGoji            http.Handler
-	gplusGojiv2          http.Handler
-	gplusGoJsonRest      http.Handler
-	gplusGoRestful       http.Handler
-	gplusGorillaMux      http.Handler
-	gplusGowwwRouter     http.Handler
-	gplusHttpRouter      http.Handler
-	gplusHttpTreeMux     http.Handler
-	gplusKocha           http.Handler
-	gplusLARS            http.Handler
-	gplusMacaron         http.Handler
-	gplusMartini         http.Handler
-	gplusPat             http.Handler
-	gplusPossum          http.Handler
-	gplusR2router        http.Handler
-	gplusRevel           http.Handler
-	gplusRivet           http.Handler
-	gplusTango           http.Handler
-	gplusTigerTonic      http.Handler
-	gplusTraffic         http.Handler
-	gplusVulcan          http.Handler
+	gplusAce                     http.Handler
+	gplusAero                    http.Handler
+	gplusBear                    http.Handler
+	gplusBeego                   http.Handler
+	gplusBone                    http.Handler
+	gplusChi                     http.Handler
+	gplusCloudyKitRouter         http.Handler
+	gplusDenco                   http.Handler
+	gplusEcho                    http.Handler
+	gplusGin                     http.Handler
+	gplusGocraftWeb              http.Handler
+	gplusGoji                    http.Handler
+	gplusGojiv2                  http.Handler
+	gplusGoJsonRest              http.Handler
+	gplusGoRestful               http.Handler
+	gplusGorillaMux              http.Handler
+	gplusGowwwRouter             http.Handler
+	gplusHttpRouter              http.Handler
+	gplusMakasimHttpRouter       http.Handler
+	gplusMakasimGlobalHttpRouter http.Handler
+	gplusHttpTreeMux             http.Handler
+	gplusKocha                   http.Handler
+	gplusLARS                    http.Handler
+	gplusMacaron                 http.Handler
+	gplusMartini                 http.Handler
+	gplusPat                     http.Handler
+	gplusPossum                  http.Handler
+	gplusR2router                http.Handler
+	gplusRevel                   http.Handler
+	gplusRivet                   http.Handler
+	gplusTango                   http.Handler
+	gplusTigerTonic              http.Handler
+	gplusTraffic                 http.Handler
+	gplusVulcan                  http.Handler
 	// gplusZeus        http.Handler
 )
 
@@ -127,6 +129,12 @@ func init() {
 	})
 	calcMem("HttpRouter", func() {
 		gplusHttpRouter = loadHttpRouter(gplusAPI)
+	})
+	calcMem("MakasimHttpRouter", func() {
+		gplusMakasimHttpRouter = loadMakasimHttpRouter(gplusAPI)
+	})
+	calcMem("MakasimGlobalHttpRouter", func() {
+		gplusMakasimGlobalHttpRouter = loadMakasimGlobalHttpRouter(gplusAPI)
 	})
 	calcMem("HttpTreeMux", func() {
 		gplusHttpTreeMux = loadHttpTreeMux(gplusAPI)
@@ -249,6 +257,14 @@ func BenchmarkGowwwRouter_GPlusStatic(b *testing.B) {
 func BenchmarkHttpRouter_GPlusStatic(b *testing.B) {
 	req, _ := http.NewRequest("GET", "/people", nil)
 	benchRequest(b, gplusHttpRouter, req)
+}
+func BenchmarkMakasimHttpRouter_GPlusStatic(b *testing.B) {
+	req, _ := http.NewRequest("GET", "/people", nil)
+	benchRequest(b, gplusMakasimHttpRouter, req)
+}
+func BenchmarkMakasimGlobalHttpRouter_GPlusStatic(b *testing.B) {
+	req, _ := http.NewRequest("GET", "/people", nil)
+	benchRequest(b, gplusMakasimGlobalHttpRouter, req)
 }
 func BenchmarkHttpTreeMux_GPlusStatic(b *testing.B) {
 	req, _ := http.NewRequest("GET", "/people", nil)

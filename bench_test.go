@@ -212,6 +212,12 @@ func BenchmarkHttpRouter_Param(b *testing.B) {
 	r, _ := http.NewRequest("GET", "/user/gordon", nil)
 	benchRequest(b, router, r)
 }
+func BenchmarkMakasimHttpRouter_Param(b *testing.B) {
+	router := loadMakasimHttpRouterSingle("GET", "/user/:name", makasimHttpRouterHandle)
+
+	r, _ := http.NewRequest("GET", "/user/gordon", nil)
+	benchRequest(b, router, r)
+}
 func BenchmarkHttpTreeMux_Param(b *testing.B) {
 	router := loadHttpTreeMuxSingle("GET", "/user/:name", httpTreeMuxHandler)
 
@@ -418,6 +424,12 @@ func BenchmarkGowwwRouter_Param5(b *testing.B) {
 }
 func BenchmarkHttpRouter_Param5(b *testing.B) {
 	router := loadHttpRouterSingle("GET", fiveColon, httpRouterHandle)
+
+	r, _ := http.NewRequest("GET", fiveRoute, nil)
+	benchRequest(b, router, r)
+}
+func BenchmarkMakasimHttpRouter_Param5(b *testing.B) {
+	router := loadMakasimHttpRouterSingle("GET", fiveColon, makasimHttpRouterHandle)
 
 	r, _ := http.NewRequest("GET", fiveRoute, nil)
 	benchRequest(b, router, r)
@@ -632,6 +644,12 @@ func BenchmarkHttpRouter_Param20(b *testing.B) {
 	r, _ := http.NewRequest("GET", twentyRoute, nil)
 	benchRequest(b, router, r)
 }
+func BenchmarkMakasimHttpRouter_Param20(b *testing.B) {
+	router := loadMakasimHttpRouterSingle("GET", twentyColon, makasimHttpRouterHandle)
+
+	r, _ := http.NewRequest("GET", twentyRoute, nil)
+	benchRequest(b, router, r)
+}
 func BenchmarkHttpTreeMux_Param20(b *testing.B) {
 	router := loadHttpTreeMuxSingle("GET", twentyColon, httpTreeMuxHandler)
 
@@ -834,6 +852,12 @@ func BenchmarkGowwwRouter_ParamWrite(b *testing.B) {
 }
 func BenchmarkHttpRouter_ParamWrite(b *testing.B) {
 	router := loadHttpRouterSingle("GET", "/user/:name", httpRouterHandleWrite)
+
+	r, _ := http.NewRequest("GET", "/user/gordon", nil)
+	benchRequest(b, router, r)
+}
+func BenchmarkMakasimHttpRouter_ParamWrite(b *testing.B) {
+	router := loadMakasimHttpRouterSingle("GET", "/user/:name", makasimHttpRouterHandleWrite)
 
 	r, _ := http.NewRequest("GET", "/user/gordon", nil)
 	benchRequest(b, router, r)

@@ -31,6 +31,7 @@ require (
 	github.com/lunny/log v0.0.0-20160921050905-7887c61bf0de
 	github.com/lunny/tango v0.5.6
 	github.com/mailgun/route v0.0.0-20181101151700-58b44163b968
+	github.com/makasim/httprouter v0.0.0-20220612083329-af069516a705
 	github.com/mikespook/possum v0.0.0-20170224044927-56d7ebb6470b
 	github.com/naoina/denco v0.0.0-20180930074809-8475105a6b4c
 	github.com/naoina/kocha-urlrouter v0.0.0-20140609163054-ad3a6f079210
@@ -55,8 +56,7 @@ require (
 	github.com/vulcand/predicate v1.1.0 // indirect
 	github.com/zenazn/goji v0.9.0
 	goji.io v2.0.2+incompatible
-	golang.org/x/crypto v0.0.0-20190927123631-a832865fa7ad // indirect
-	golang.org/x/net v0.0.0-20190926025831-c00fd9afed17 // indirect
+	golang.org/x/sys v0.0.0-20220610221304-9f5ed59c137d // indirect
 	gopkg.in/fsnotify.v1 v1.4.7 // indirect
 	gopkg.in/ini.v1 v1.48.0 // indirect
 	gopkg.in/macaron.v1 v1.3.4

@@ -59,6 +59,8 @@ import (
 	gojiv2 "goji.io"
 	gojiv2pat "goji.io/pat"
 	"gopkg.in/macaron.v1"
+
+	makasimhttprouter "github.com/makasim/httprouter/stdrouter"
 )
 
 type route struct {
@@ -907,6 +909,17 @@ func httpRouterHandleTest(w http.ResponseWriter, r *http.Request, _ httprouter.P
 	io.WriteString(w, r.RequestURI)
 }
 
+// MakasimHttpRouter
+func makasimHttpRouterHandle(_ http.ResponseWriter, _ *http.Request, _ makasimhttprouter.Params) {}
+
+func makasimHttpRouterHandleWrite(w http.ResponseWriter, _ *http.Request, ps makasimhttprouter.Params) {
+	io.WriteString(w, ps.ByName("name"))
+}
+
+func makasimHttpRouterHandleTest(w http.ResponseWriter, r *http.Request, _ makasimhttprouter.Params) {
+	io.WriteString(w, r.RequestURI)
+}
+
 func loadHttpRouter(routes []route) http.Handler {
 	h := httpRouterHandle
 	if loadTestHandler {
@@ -923,6 +936,54 @@ func loadHttpRouter(routes []route) http.Handler {
 func loadHttpRouterSingle(method, path string, handle httprouter.Handle) http.Handler {
 	router := httprouter.New()
 	router.Handle(method, path, handle)
+	return router
+}
+
+func loadMakasimHttpRouter(routes []route) http.Handler {
+	h := makasimHttpRouterHandle
+	if loadTestHandler {
+		h = makasimHttpRouterHandleTest
+	}
+
+	router := makasimhttprouter.New()
+	re := regexp.MustCompile(":([^/]*)")
+	for i, route := range routes {
+		hid := uint64(i + 1)
+		router.Handlers[hid] = h
+
+		if err := router.Add(route.method, re.ReplaceAllString(route.path, "{$1}"), hid); err != nil {
+			panic(err)
+		}
+	}
+	return router
+}
+
+func loadMakasimHttpRouterSingle(method, path string, handle makasimhttprouter.HandlerFunc) http.Handler {
+	re := regexp.MustCompile(":([^/]*)")
+	router := makasimhttprouter.New()
+	router.GlobalHandler = handle
+	if err := router.Add(method, re.ReplaceAllString(path, "{$1}"), 1); err != nil {
+		panic(err)
+	}
+	return router
+}
+
+func loadMakasimGlobalHttpRouter(routes []route) http.Handler {
+	h := makasimHttpRouterHandle
+	if loadTestHandler {
+		h = makasimHttpRouterHandleTest
+	}
+
+	router := makasimhttprouter.New()
+	router.GlobalHandler = h
+	re := regexp.MustCompile(":([^/]*)")
+	for i, route := range routes {
+		hid := uint64(i + 1)
+
+		if err := router.Add(route.method, re.ReplaceAllString(route.path, "{$1}"), hid); err != nil {
+			panic(err)
+		}
+	}
 	return router
 }
 
